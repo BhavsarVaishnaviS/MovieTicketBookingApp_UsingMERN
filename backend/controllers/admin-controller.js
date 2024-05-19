@@ -4,25 +4,28 @@ import jwt from 'jsonwebtoken';
 
 export const addAdmin = async (req, res, next) => {
     const { email, password } = req.body;
-    if (!email || !password || email.trim() === "" || password.trim() === "") {
-        return res.status(422).json({ message: "Invalid Inputs" });
+    let existingAdmin;
+    try {
+        existingAdmin = await Admin.findOne({ email });
+    } catch (error) {
+        return console.log(error);
+    }
+    if (existingAdmin) {
+        return res.status(400).json({ message: "Admin already exists" });
     }
 
-    try {
-        let existingAdmin = await Admin.findOne({ email });
-        if (existingAdmin) {
-            return res.status(400).json({ message: "Admin already exists" });
-        }
-
-        const hashedPassword = bcrypt.hashSync(password);
-        const admin = new Admin({ email, password: hashedPassword });
-        await admin.save();
-
-        return res.status(201).json({ admin });
-    } catch (error) {
-        console.error(error);
+    let admin;
+    const hashedPassword = bcrypt.hashSync(password);
+    try{
+        admin=new Admin({email,password:hashedPassword});
+        admin = await admin.save();
+    }catch(err){
+        return console.log(err);
+    }
+    if(!admin){
         return res.status(500).json({ message: "Internal Server Error" });
     }
+    return res.status(201).json({ admin });
 };
 
 export const adminLogin = async (req, res, next) => {

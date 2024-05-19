@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { Link } from "react-router-dom";
 
 const labelStyle = { mt: 1, mb: 1 };
 const AuthForm = ({ onSubmit, isAdmin }) => {
@@ -22,12 +23,12 @@ const AuthForm = ({ onSubmit, isAdmin }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({inputs,signup: isAdmin ? false : isSignup});
+    onSubmit({ inputs, signup: isAdmin ? false : isSignup });
   };
   return (
     <Dialog PaperProps={{ style: { borderRadius: 20 } }} open={true}>
       <Box sx={{ ml: "auto", padding: 1 }}>
-        <IconButton>
+        <IconButton LinkComponent={Link} to="/">
           <CloseRoundedIcon />
         </IconButton>
       </Box>
@@ -83,6 +84,7 @@ const AuthForm = ({ onSubmit, isAdmin }) => {
           >
             {isSignup ? "Signup" : "Login"}
           </Button>
+
           {!isAdmin && (
             <Button
               onClick={() => setIsSignup(!isSignup)}

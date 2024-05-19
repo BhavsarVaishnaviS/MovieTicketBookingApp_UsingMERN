@@ -1,10 +1,10 @@
 import React from 'react'
 import AuthForm from './AuthForm'
 
-const AdminAuth = ({ onSubmit, isAdmin }) => {
+const AdminAuth = () => {
   return (
     <div>
-        <AuthForm onSubmit={onSubmit} isAdmin={isAdmin} />
+        <AuthForm />
     </div>
   )
 }

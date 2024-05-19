@@ -3,7 +3,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -13,8 +12,8 @@ const MovieItem = ({ title, releaseDate, posterUrl, id }) => {
   return (
     <Card
       sx={{
-        margin: 5,
-        width: 250, // Fixed the property name to lowercase
+        margin: 2,
+        width: 270, 
         height: 320,
         borderRadius: 5,
         ":hover": {
@@ -23,11 +22,6 @@ const MovieItem = ({ title, releaseDate, posterUrl, id }) => {
       }}
     >
       <img height={"50%"} width={"100%"} src={posterUrl} alt={title} />
-      <CardMedia
-        sx={{ height: 140 }}
-        image="/static/images/cards/contemplative-reptile.jpg"
-        title="green iguana"
-      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
@@ -37,15 +31,17 @@ const MovieItem = ({ title, releaseDate, posterUrl, id }) => {
         </Typography>
       </CardContent>
       <CardActions>
+      <CardActions>
+    </CardActions>
         <Button
-          component={Link}
+          variant="contained"
+          LinkComponent={Link}
           to={`/booking/${id}`}
-          sx={{ margin: "auto" }}
-          
+          sx={{ margin: "auto", bgcolor:"#2b2d42" }}
+          size="small"
         >
           Book
         </Button>
-        {/* <Button size="small">Learn More</Button> */}
       </CardActions>
     </Card>
   );

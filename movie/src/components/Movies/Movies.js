@@ -4,12 +4,24 @@ import { getAllMovies } from "../../api-helpers/api-helpers";
 import MovieItem from "./MovieItem";
 
 export const Movies = () => {
-  const [movies, setMovies] = useState();
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     getAllMovies()
-      .then((data) => setMovies(data.movies))
-      .catch((err) => console.log(err));
+      .then((data) => {
+        if (data && data.movies) {
+          setMovies(data.movies);
+        } else {
+          setError("Failed to fetch movies.");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setError("Failed to fetch movies. Please try again later.");
+      });
   }, []);
+
   return (
     <Box margin={"auto"} marginTop={4}>
       <Typography
@@ -30,16 +42,19 @@ export const Movies = () => {
         justifyContent={"center"}
         flexWrap={"wrap"}
       >
-        {movies && 
-        movies.map((movie,index)=>
-            (<MovieItem key={index} 
-                id={movie.id} 
-                posterUrl={movie.posterUrl} 
-                releaseDate={movie.releaseDate} 
-                title={movie.title}/>
-            )
-        )
-    }
+        {error ? (
+          <Typography color="error">{error}</Typography>
+        ) : (
+          movies.map((movie) => (
+            <MovieItem
+              key={movie.id}
+              id={movie.id}
+              posterUrl={movie.posterUrl}
+              releaseDate={movie.releaseDate}
+              title={movie.title}
+            />
+          ))
+        )}
       </Box>
     </Box>
   );
